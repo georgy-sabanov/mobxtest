@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
+import React, { FC } from 'react';
+import { ModelData } from './Stores/ModelStore';
 import './App.css';
+import { observer } from 'mobx-react';
+import { Identify } from './Components/Identify';
+import { IdentifyModel, IdentifyModelData } from './Models/IdentifyModel';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.tsx</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+interface AppProps {
+  modelStore: ModelData
 }
 
-export default App;
+const AppComponent: FC<AppProps> = props => {  
+  console.log(props.modelStore.email);
+  return (
+    <div>
+      <button onClick={()=> props.modelStore.toggleShow()}>Toggle</button>
+       { props.modelStore.show ? 
+       <Identify identifyModel={IdentifyModel.create({ email: props.modelStore.email })} modelStore={props.modelStore} />:
+       <div>lelelele</div> }
+    </div>
+  )
+}
+
+export const App = observer(AppComponent);
